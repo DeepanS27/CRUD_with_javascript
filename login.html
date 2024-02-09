@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="auth.css" /> -->
+    <title>Firebase Authentication - Login</title>
+  </head>
+
+  <body>
+    <h1>Login</h1>
+
+    <div id="login-section">
+      <form id="loginForm">
+        <label for="login-email">Email:</label>
+        <input type="email" id="login-email" name="email" required />
+        <label for="login-password">Password:</label>
+        <input type="password" id="login-password" name="password" required />
+        <button type="submit">Login</button>
+      </form>
+
+      <p>Don't have an account? <a href="register.html">Register here</a>.</p>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getAuth,
+        signInWithEmailAndPassword,
+        createUserWithEmailAndPassword,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBi4PY5r6uQjU5r025OYwqaeNKECru_SHA",
+        authDomain: "authentication-dee17.firebaseapp.com",
+        databaseURL: "https://authentication-dee17-default-rtdb.firebaseio.com",
+        projectId: "authentication-dee17",
+        storageBucket: "authentication-dee17.appspot.com",
+        messagingSenderId: "895015187256",
+        appId: "1:895015187256:web:c48878450193eae61b87cd",
+        measurementId: "G-2WNHC6ZFPN",
+      };
+      // Initialize Firebase
+      const firebaseApp = initializeApp(firebaseConfig);
+      const auth = getAuth(firebaseApp);
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // Login form submission handler
+        const loginForm = document.getElementById("loginForm");
+        loginForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const email = document.getElementById("login-email").value;
+          const password = document.getElementById("login-password").value;
+
+          try {
+            const userCredential = await signInWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+            // User successfully logged in
+            alert("Login Successfully");
+            console.log("User logged in:", userCredential.user);
+            window.location.href = "crud.html";
+          } catch (error) {
+            // Handle login errors
+            console.error("Login error:", error.message);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
